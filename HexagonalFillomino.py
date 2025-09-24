@@ -49,21 +49,26 @@ class HexagonalFillomino:
         #if size_of_region(coords,board) > board[coords]:
         #    return
 
-    def size_of_region(coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> int:
+    def size_of_region(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> int:
         pass
 
-    def find_neighbours(coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
-        pass
+    def find_neighbours(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
+        neighbours: list[tuple[int, int]] = []
+        for direction in self.directions:
+            neighbours.append((coords[0]+direction[0],coords[1]+direction[1]))
+        return neighbours
 
+    @staticmethod
     def board_is_full(board: Dict[Tuple[int, int], int]) -> bool:
         for cell in board.values():
             if cell == 0:
                 return False
         return True
 
-    def fill_empty_cells(board: Dict[Tuple[int, int], int]):
+    def fill_empty_cells(self, board: Dict[Tuple[int, int], int]):
         pass
 
+    @staticmethod
     def find_not_visited_valuable(board: Dict[Tuple[int, int], int], visited: List[Tuple[int, int]]) -> Tuple[int, int]:
         for cell in board.keys():
             if cell not in visited:
