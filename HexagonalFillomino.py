@@ -56,10 +56,15 @@ class HexagonalFillomino:
         pass
 
     def board_is_full(board: Dict[Tuple[int, int], int]) -> bool:
-        pass
+        for cell in board.values():
+            if cell == 0:
+                return False
+        return True
 
     def fill_empty_cells(board: Dict[Tuple[int, int], int]):
         pass
 
     def find_not_visited_valuable(board: Dict[Tuple[int, int], int], visited: List[Tuple[int, int]]) -> Tuple[int, int]:
-        pass
+        for cell in board.keys():
+            if cell not in visited:
+                return cell
