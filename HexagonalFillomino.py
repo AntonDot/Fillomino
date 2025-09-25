@@ -7,7 +7,7 @@ class HexagonalFillomino:
     def __init__(self):
         self.solutions = []
         self.results = []
-        setrecursionlimit(1000000)
+        setrecursionlimit(10000)
         # Hexagonal neighbors: six directions
         self.directions = [
             (1, -1), (1, 0),
@@ -27,7 +27,7 @@ class HexagonalFillomino:
         if board[coords] != 0:
             visited.append(coords)
         if self.size_of_region(coords, board) < board[coords]:
-            neighbours = self.find_neighbours(coords, board)
+            neighbours = self.find_neighbours_of_region(coords, board)
             for neighbour in neighbours:
                 if (board[neighbour] != 0 and board[neighbour] != board[coords]) or neighbour in visited:
                     continue
@@ -57,8 +57,20 @@ class HexagonalFillomino:
         for neighbour in neighbours:
             if neighbour not in visited:
                 if board[neighbour] == board[coords]:
-                    self.recursive_find_size(neighbour, board, visited)
+                    if neighbour not in visited:
+                        visited.append(neighbour)
+                        self.recursive_find_size(neighbour, board, visited)
         return len(visited)
+
+    def region(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
+        visited: List[Tuple[int, int]] = [coords]
+        neighbours = self.find_neighbours(coords, board)
+        for neighbour in neighbours:
+            if neighbour not in visited:
+                if board[neighbour] == board[coords]:
+                    visited.append(neighbour)
+                    self.recursive_find_size(neighbour, board, visited)
+        return visited
 
     #@lru_cache(None)
     def recursive_find_size(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int],
@@ -67,7 +79,9 @@ class HexagonalFillomino:
         for neighbour in neighbours:
             if neighbour not in visited:
                 if board[neighbour] == board[coords]:
+                    visited.append(neighbour)
                     self.recursive_find_size(neighbour, board, visited)
+
 
     #@lru_cache(None)
     def find_neighbours(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
@@ -75,6 +89,17 @@ class HexagonalFillomino:
         for direction in self.directions:
             if (coords[0] + direction[0], coords[1] + direction[1]) in board.keys():
                 neighbours.append((coords[0] + direction[0], coords[1] + direction[1]))
+        return neighbours
+
+    def find_neighbours_of_region(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
+        region_members = self.region(coords, board)
+        neighbours: list[tuple[int, int]] = []
+        for region_member in region_members:
+            neighbours_of_member = self.find_neighbours(region_member, board)
+            for neighbour_of_member in neighbours_of_member:
+                if neighbour_of_member not in neighbours:
+                    neighbours.append(neighbour_of_member)
+
         return neighbours
 
     @staticmethod
