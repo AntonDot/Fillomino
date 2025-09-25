@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from HexagonalFillomino import HexagonalFillomino
+from sys import setrecursionlimit
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+setrecursionlimit(1000000)
+board = {(0, 0): 3, (1, 0): 2, (0, 1): 0, (-1, 1): 0, (-1, 0): 0, (0, -1): 0, (1, -1): 0}
+solver = HexagonalFillomino()
+results = solver.find_solves(board)
+print(len(results))
+for result in results:
+    print(result)
+print("+_+")
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
