@@ -1,5 +1,4 @@
 from typing import Dict, Tuple, List
-from functools import lru_cache
 from sys import setrecursionlimit
 
 
@@ -15,14 +14,12 @@ class HexagonalFillomino:
             (-1, 0), (-1, 1)
         ]
 
-    #@lru_cache(None)
     def find_solves(self, board: Dict[Tuple[int, int], int]):
         visited = []
         start_pos = self.find_not_visited_valuable(board, visited)
         self.f(start_pos, visited, board)
         return self.results
 
-    #@lru_cache(None)
     def f(self, coords: Tuple[int, int], visited: List[Tuple[int, int]], board: Dict[Tuple[int, int], int]):
         if board[coords] != 0:
             visited.append(coords)
@@ -50,7 +47,6 @@ class HexagonalFillomino:
         # if size_of_region(coords,board) > board[coords]:
         #    return
 
-    #@lru_cache(None)
     def size_of_region(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> int:
         visited: List[Tuple[int, int]] = [coords]
         neighbours = self.find_neighbours(coords, board)
@@ -72,7 +68,6 @@ class HexagonalFillomino:
                     self.recursive_find_size(neighbour, board, visited)
         return visited
 
-    #@lru_cache(None)
     def recursive_find_size(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int],
                             visited: List[Tuple[int, int]]):
         neighbours = self.find_neighbours(coords, board)
@@ -82,8 +77,6 @@ class HexagonalFillomino:
                     visited.append(neighbour)
                     self.recursive_find_size(neighbour, board, visited)
 
-
-    #@lru_cache(None)
     def find_neighbours(self, coords: Tuple[int, int], board: Dict[Tuple[int, int], int]) -> List[Tuple[int, int]]:
         neighbours: list[tuple[int, int]] = []
         for direction in self.directions:
@@ -109,7 +102,6 @@ class HexagonalFillomino:
                 return False
         return True
 
-    #@lru_cache(None)
     def fill_empty_cells(self, visited: List[Tuple[int, int]], board: Dict[Tuple[int, int], int]):
         neighbour: Tuple[int, int] = self.find_empty_cell(board)
         for n in range(self.size_of_region(neighbour, board), 0, -1):

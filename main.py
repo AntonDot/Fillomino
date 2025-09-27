@@ -14,21 +14,23 @@ board = {
     (-2, 0): 4, (-2, 1): 4, (-2, 2): 3,
     (-1, 2): 3, (0, 2): 2, (1, 1): 3
 }
+
 solver = HexagonalFillomino()
 results = solver.find_solves(board)
-results_str = []
-
+uni_results = []
 for result in results:
-    result_str = str(result)
-    if result_str not in results_str:
-        results_str.append(result_str)
-        draw_simple_hex_board(result)
-        print()
-print(len(results_str))
-for res in results_str:
-    print("\"" + res + "\"")
-print("+_+")
+    if result not in uni_results:
+        uni_results.append(result)
+
 
 draw_simple_hex_board(board)
+print("-----------------------------------------------------")
+
+for result in uni_results:
+    draw_simple_hex_board(result)
+    print()
+
+
+
 
 
